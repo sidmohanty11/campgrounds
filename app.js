@@ -68,7 +68,6 @@ passport.deserializeUser(User.deserializeUser());
 app.use(ignoreFavicon);
 app.use((req, res, next) => {
     if (!['/login', '/register', '/'].includes(req.originalUrl)) {
-        console.dir(req.originalUrl);
         req.session.returnTo = req.originalUrl;
     }
     res.locals.currentUser = req.user;
