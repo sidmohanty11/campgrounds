@@ -38,6 +38,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
+function ignoreFavicon(req, res, next) {
+    if (req.originalUrl.includes('favicon.ico')) {
+        res.status(204).end()
+    }
+    next();
+}
+
 const sessionConfig = {
     secret: 'thisisasecret',
     resave: false,
@@ -58,8 +65,10 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+app.use(ignoreFavicon);
 app.use((req, res, next) => {
-    if (!['/login', '/'].includes(req.originalUrl)) {
+    if (!['/login', '/register', '/'].includes(req.originalUrl)) {
+        console.dir(req.originalUrl);
         req.session.returnTo = req.originalUrl;
     }
     res.locals.currentUser = req.user;

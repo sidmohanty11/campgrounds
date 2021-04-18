@@ -6,19 +6,22 @@
             <div class="card-body">
                 <h5 class="card-title"><%= camp.title %></h5>
                 <p class="card-text">
-                    description -> <%= camp.description %>
+                    Description : <%= camp.description %>
                 </p>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">Price : Rs.<%= camp.price %>/night</li>
-                <li class="list-group-item">at location :<%= camp.location %></li>
+                <li class="list-group-item">At Location :<%= camp.location %></li>
+                <li class="list-group-item">Author: <i><%= camp.author.username %></i></li>
             </ul>
             <div class="card-body">
+                <% if(currentUser&&camp.author.equals(currentUser._id)){ %>
                 <a href="/campgrounds/<%= camp._id %>/edit" class="btn btn-info mb-3">Edit the camp</a><br>
-                <a href="/campgrounds" class="btn btn-warning mb-3">All campgrounds</a>
                 <form action="/campgrounds/<%= camp._id %>?_method=DELETE" method="POST">
                     <button class="btn btn-danger">Delete</button>
                 </form>
+                <% } %>
+                <a href="/campgrounds" class="btn btn-warning mt-3">All campgrounds</a>
             </div>
         </div>
         <footer>
