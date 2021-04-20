@@ -1,6 +1,6 @@
 mapboxgl.accessToken = mapToken;
 const map = new mapboxgl.Map({
-    container: 'map',
+    container: 'cluster-map',
     style: 'mapbox://styles/mapbox/outdoors-v11',
     center: [78.9629, 20.5937],
     zoom: 3
@@ -122,4 +122,5 @@ map.on('load', function () {
     map.on('mouseleave', 'clusters', function () {
         map.getCanvas().style.cursor = '';
     });
+    map.addControl(new mapboxgl.NavigationControl());
 });
