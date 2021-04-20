@@ -9,12 +9,12 @@ const upload = multer({ storage });
 
 router.route('/')
     .get(catchAsync(campgrounds.index))
-    .post(isLoggedIn, upload.array('image'), validateCamp, catchAsync(campgrounds.showPage));
+    .post(isLoggedIn, upload.array('image'), validateCamp, catchAsync(campgrounds.createNew));
 
 router.get('/new', isLoggedIn, catchAsync(campgrounds.getNew));
 
 router.route('/:id')
-    .get(catchAsync(campgrounds.createNew))
+    .get(catchAsync(campgrounds.showPage))
     .put(isLoggedIn, isAuthor, upload.array('image'), validateCamp, catchAsync(campgrounds.updateCamp))
     .delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCamp));
 
