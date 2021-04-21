@@ -18,9 +18,10 @@ const reviewsRoutes = require('./routes/reviews.js');
 const UsersRoutes = require('./routes/users');
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet');
+const MongoStore = require('connect-mongo');
+const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/campgrounds";
 
-
-mongoose.connect('mongodb://localhost:27017/campgrounds', {
+mongoose.connect(dbUrl, {
     useNewUrlParser: true,
     useCreateIndex: true,
     useUnifiedTopology: true,
@@ -53,9 +54,25 @@ function ignoreFavicon(req, res, next) {
     next();
 }
 
+const secret = process.env.SECRET || 'thisisasecret';
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret
+    }
+});
+
+store.on('error', function (e) {
+    console.log('session store error', e)
+});
+
+
 const sessionConfig = {
+    store,
     name: 'ses',
-    secret: 'thisisasecret',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
