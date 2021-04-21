@@ -6,6 +6,7 @@ A website to share your experiences of the favourite spots you visit that give y
 ```node
 npm install
 ```
+Configure mongod and then,
 
 ```node
 npm start
