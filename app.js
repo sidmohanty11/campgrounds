@@ -16,6 +16,8 @@ const User = require('./models/user.js');
 const campgroundsRoutes = require('./routes/campgrounds.js');
 const reviewsRoutes = require('./routes/reviews.js');
 const UsersRoutes = require('./routes/users');
+const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
 
 
 mongoose.connect('mongodb://localhost:27017/campgrounds', {
@@ -41,6 +43,8 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(mongoSanitize());
+app.use(helmet({ contentSecurityPolicy: false }));
 
 function ignoreFavicon(req, res, next) {
     if (req.originalUrl.includes('favicon.ico')) {
@@ -50,11 +54,13 @@ function ignoreFavicon(req, res, next) {
 }
 
 const sessionConfig = {
+    name: 'ses',
     secret: 'thisisasecret',
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
+        //secure:true,
         expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
         maxAge: 1000 * 60 * 60 * 24 * 7
     }
