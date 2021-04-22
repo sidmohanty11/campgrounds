@@ -1,6 +1,6 @@
 # campgrounds
 A website to share your experiences of the favourite spots you visit that give you the ecstatic moment!
-[Check the deployed model](https://salty-thicket-02211.herokuapp.com/)
+[Check the deployed model](https://camp-grounds-app.herokuapp.com/)
 
 ## To start the app
 ```node
